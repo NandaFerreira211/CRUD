@@ -5,8 +5,6 @@ namespace CRUD;
 
 public partial class Cadastro : Window
 {
-    public string stringConexao = Environment.GetEnvironmentVariable("MYSQL_STRING");
-
     public Cadastro()
     {
         InitializeComponent();
@@ -23,7 +21,7 @@ public partial class Cadastro : Window
             return;
         }
 
-        using (var conexao = new MySqlConnection(stringConexao))
+        using (var conexao = new MySqlConnection(App.StringConexao))
         {
             var query = "INSERT INTO usuarios(nome, username, email, senha) VALUES(@nome, @username, @email, @senha)";
 
@@ -38,6 +36,7 @@ public partial class Cadastro : Window
                 {
                     conexao.Open();
                     var linhasAfetadas = comando.ExecuteNonQuery();
+                    var leitor = comando.ExecuteReader();
                     if (linhasAfetadas > 0)
                     {
                         MessageBox.Show("Cadastro realizado!");
