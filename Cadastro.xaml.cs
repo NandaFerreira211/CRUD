@@ -3,33 +3,27 @@ using MySql.Data.MySqlClient;
 
 namespace CRUD;
 
-/// <summary>
-///     Interaction logic for MainWindow.xaml
-/// </summary>
 public partial class Cadastro : Window
 {
-    public string stringConexao = Environment.GetEnvironmentVariable("MYSQL_STRING");
-
-
     public Cadastro()
     {
         InitializeComponent();
     }
 
-    private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+    private void BtnCadastrar_OnClick(object sender, RoutedEventArgs e)
     {
-        if (string.IsNullOrEmpty(TxtNome.Text) ||
+        if (string.IsNullOrWhiteSpace(TxtNome.Text) ||
             string.IsNullOrWhiteSpace(TxtUsername.Text) ||
             string.IsNullOrWhiteSpace(TxtEmail.Text) ||
             string.IsNullOrWhiteSpace(TxtSenha.Password))
         {
-            MessageBox.Show("Todos os campos são obrigatórios.", "Error!");
+            MessageBox.Show("Todos os campos são obrigatórios.", "Erro!");
             return;
         }
 
-        using (var conexao = new MySqlConnection(stringConexao))
+        using (var conexao = new MySqlConnection(App.StringConexao))
         {
-            var query = "INSERT INTO usuarios(nome,username,email,senha)\nVALUES(@nome,@username,@email,@senha)";
+            var query = "INSERT INTO usuarios(nome, username, email, senha) VALUES(@nome, @username, @email, @senha)";
 
             using (var comando = new MySqlCommand(query, conexao))
             {
@@ -41,9 +35,12 @@ public partial class Cadastro : Window
                 try
                 {
                     conexao.Open();
-
                     var linhasAfetadas = comando.ExecuteNonQuery();
-                    if (linhasAfetadas > 0) MessageBox.Show("Cadastro realizado com sucesso!");
+                    var leitor = comando.ExecuteReader();
+                    if (linhasAfetadas > 0)
+                    {
+                        MessageBox.Show("Cadastro realizado!");
+                    }
                 }
                 catch (Exception exception)
                 {
@@ -52,10 +49,12 @@ public partial class Cadastro : Window
                         if (erroSql.Number == 1062)
                         {
                             MessageBox.Show("O email ou username já foram utilizados");
+                            return;
                         }
                     }
-
+                    
                     Console.WriteLine(exception);
+                    return;
                 }
             }
         }
