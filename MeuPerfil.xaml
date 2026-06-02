@@ -33,7 +33,7 @@
                     <!-- Foto de Perfil Circular (Usa uma imagem padrão da web) -->
                     <Ellipse Width="120" Height="120" Stroke="#E5E7EB" StrokeThickness="2">
                         <Ellipse.Fill>
-                            <ImageBrush ImageSource="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcToZcO5aepzw7l6xfhqJv41mCbUyNQ6XuyfxA&s" Stretch="UniformToFill"/>
+                            <ImageBrush ImageSource="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcToZcO5aepzw7l6xfhqJv41mCbUyNQ6XuyfxAs" Stretch="UniformToFill"/>
                         </Ellipse.Fill>
                     </Ellipse>
 
@@ -144,6 +144,7 @@
                                 FontWeight="Bold"
                                 BorderThickness="0"
                                 Cursor="Hand"
+                                Click="BtnSalvar_OnClick"
                                >
                             <Button.Resources>
                                 <Style TargetType="Border">
