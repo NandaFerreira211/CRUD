@@ -84,4 +84,37 @@ public partial class MeuPerfil : Window
         
         
     }
+
+    private void BtnDeletarPerfil_OnClick(object sender, RoutedEventArgs e)
+    {
+        var resultadoMessageBox = MessageBox.Show("Você tem certeza que deseja excluir o perfil?", "Confirmação de Exclusão", MessageBoxButton.YesNo,MessageBoxImage.Question);
+        
+        
+     using var conexao = new MySqlConnection(App.StringConexao);    
+     var query = "DELETE FROM usuarios WHERE id = @id";
+     using var comando = new MySqlCommand(query, conexao);
+
+     comando.Parameters.AddWithValue("@id", UsuarioAtual.Id);
+
+     try
+     {
+        conexao.Open();
+        var linhasAfetadas = comando.ExecuteNonQuery();
+        if (linhasAfetadas > 0)
+        {
+            MessageBox.Show("Deseja realmente excluir o perfil?");
+            Close();
+        }
+        else
+        {
+            MessageBox.Show("Erro ao excluir o perfil!");
+        }
+     }
+     catch (Exception exception)
+     {
+         Console.WriteLine(exception);
+         
+     }
+     
+    }
 }

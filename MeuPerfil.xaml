@@ -125,6 +125,7 @@
                                 FontWeight="Bold"
                                 BorderThickness="0"
                                 Cursor="Hand"
+                                Click="BtnDeletarPerfil_OnClick"
                                 >
                             <Button.Resources>
                                 <Style TargetType="Border">
