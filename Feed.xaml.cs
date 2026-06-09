@@ -9,6 +9,7 @@ public partial class Feed : Window
     public Feed()
     {
         InitializeComponent();
+        CarregarPosts_QuandoIniciar();
     }
 
     private void CarregarPosts_QuandoIniciar()
@@ -20,6 +21,42 @@ public partial class Feed : Window
         using var conexao = new MySqlConnection(App.StringConexao);
 
         using var comando = new MySqlCommand(query, conexao);
+
+        try
+        {
+          conexao.Open();
+
+          var leitor = comando.ExecuteReader();
+          if (!leitor.HasRows)
+          {
+              MessageBox.Show("Nenhuma postagem encontrada!");
+              return;
+          }
+
+          while (leitor.Read())
+          {
+              var post = new Postagem
+              {
+                  Id = leitor.GetInt32("id"),
+                  Conteudo = leitor.GetString("conteudo"),
+                  Curtidas = leitor.GetInt32("curtidas"),
+                  Postado_em = leitor.GetDateTime("postado_em"),
+                  Usuario = new Usuario
+                  {
+                      Nome = leitor.GetString("nome"),
+                      Username = leitor.GetString("username")
+                  }
+              };
+              listaPostagens.Add(post);
+          }
+          ItemsControlFeed.ItemsSource = listaPostagens;
+          
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+         
+        }
     }
     
 }

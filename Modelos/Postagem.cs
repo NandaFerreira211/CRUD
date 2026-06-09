@@ -2,9 +2,9 @@
 
 public class Postagem
 {
-    public int Id;
-    public string Conteudo;
-    public int Curtidas;
-    public DateTime Postado_em;
-    public Usuario Usuario;
+    public int Id { get; set; }
+    public string Conteudo  { get; set; }
+    public int Curtidas  { get; set; }
+    public DateTime Postado_em  { get; set; }
+    public Usuario Usuario { get; set; }
 }
