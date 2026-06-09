@@ -1,4 +1,4 @@
-namespace CRUD.Modelos;
+﻿namespace CRUD.Modelos;
 
 public class Usuario
 {
@@ -7,5 +7,4 @@ public class Usuario
     public string Email;
     public string Senha;
     public string Username;
-    
 }

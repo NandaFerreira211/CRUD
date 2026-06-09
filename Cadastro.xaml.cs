@@ -22,7 +22,7 @@ public partial class Cadastro : Window
         }
 
         using var conexao = new MySqlConnection(App.StringConexao);
-        var query = "INSERT INTO usuarios(nome, username, email, senha) VALUES(@nome, @username, @email, @senha)";
+        const string query = "INSERT INTO usuarios(nome, username, email, senha) VALUES(@nome, @username, @email, @senha)";
 
         using var comando = new MySqlCommand(query, conexao);
         comando.Parameters.AddWithValue("@nome", TxtNome.Text);
@@ -34,7 +34,6 @@ public partial class Cadastro : Window
         {
             conexao.Open();
             var linhasAfetadas = comando.ExecuteNonQuery();
-            var leitor = comando.ExecuteReader();
             if (linhasAfetadas > 0)
             {
                 MessageBox.Show("Cadastro realizado!");
@@ -42,10 +41,13 @@ public partial class Cadastro : Window
         }
         catch (Exception exception)
         {
-            if (exception is MySqlException { Number: 1062 })
+            if (exception is MySqlException erroSql)
             {
-                MessageBox.Show("O email ou username já foram utilizados");
-                return;
+                if (erroSql.Number == 1062)
+                {
+                    MessageBox.Show("O email ou username já foram utilizados");
+                    return;
+                }
             }
                     
             Console.WriteLine(exception);
