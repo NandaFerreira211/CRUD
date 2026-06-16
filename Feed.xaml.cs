@@ -75,14 +75,12 @@ public partial class Feed : Window
         comando.Parameters.AddWithValue("@usuario", _usuario.Id);
         comando.Parameters.AddWithValue("@postagem",postagem.Id);
         
-
         try
         {
-            
           conexao.Open();
           var leitor = comando.ExecuteReader();
           string acao;
-          if (!leitor.HasRows)
+          if (leitor.HasRows)
           {
             query = "DELETE FROM curtidas_postagens WHERE usuario_id =@usuario AND postagem_id =@postagem";
             acao = "descutir";
@@ -95,8 +93,8 @@ public partial class Feed : Window
           conexao.Close();
           comando.CommandText = query;
           conexao.Open();
-          var LinhasAfetadas = comando.ExecuteNonQuery();
-          if (LinhasAfetadas == 0) throw new Exception("Erro ao curtir postagem");
+          var linhasAfetadas = comando.ExecuteNonQuery();
+          if (linhasAfetadas == 0) throw new Exception($"Erro ao {acao} postagem");
         }
         catch (Exception exception)
         {

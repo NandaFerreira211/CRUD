@@ -8,7 +8,7 @@
         Title="Feed" Height="680" Width="800"
         WindowStartupLocation="CenterScreen">
     <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
-        <Border Background="#FFC5D3"
+        <Border Background="AliceBlue"
                 CornerRadius="8"
                 Padding="30"
                 Width="420"
@@ -71,18 +71,22 @@
                                                         Height="35"
                                                         Width="100"
                                                         HorizontalAlignment="Left"
-                                                        Background="#2563EB"
-                                                        Foreground="White"
                                                         FontWeight="Bold"
                                                         BorderThickness="0"
                                                         Cursor="Hand"
                                                         Click="BtnCurtir_OnClick"
                                                         Tag="{Binding}">
-                                                    <Button.Resources>
-                                                        <Style TargetType="Border">
-                                                            <Setter Property="CornerRadius" Value="5" />
+                                                    <Button.Style>
+                                                        <Style TargetType="Button">
+                                                            <Setter Property="Background" Value="Transparent" />
+                                                            <Setter Property="Foreground" Value="Black"/>
+                                                            <Style.Triggers>
+                                                              <DataTrigger Binding="{Binding FoiCurtido}" Value="True" >
+                                                                 <Setter Property="Foreground" Value="Red"/> 
+                                                              </DataTrigger>
+                                                            </Style.Triggers>
                                                         </Style>
-                                                    </Button.Resources>
+                                                    </Button.Style>
                                                 </Button>
 
                                                 <TextBlock VerticalAlignment="Center"
