@@ -5,22 +5,33 @@ namespace CRUD.Modelos;
 
 public class Postagem : INotifyPropertyChanged
 {
+    private bool _foiCurtido;
+    private int _curtidas;
     public int Id { get; set; }
-    public string Conteudo  { get; set; }
-    public int Curtidas  { get; set; }
-    public DateTime Postado_em  { get; set; }
-    public Usuario Usuario { get; set; }
-    public event PropertyChangedEventHandler? PropertyChanged;
-    private bool _FoiCurtido;
-    
-    public bool FoiCurtido
+    public string Conteudo { get; set; }
+
+    public int Curtidas
     {
-        get => _FoiCurtido;
+        get => _curtidas;
         set
         {
-            if (_FoiCurtido != value)
+            _curtidas = value;
+            NotificarPropriedadeAlterada();
+        }
+    }
+
+    public DateTime Postado_em { get; set; }
+    public Usuario Usuario { get; set; }
+    public event PropertyChangedEventHandler? PropertyChanged;
+
+    public bool FoiCurtido
+    {
+        get => _foiCurtido;
+        set
+        {
+            if (_foiCurtido != value)
             {
-                _FoiCurtido = value;
+                _foiCurtido = value;
                 NotificarPropriedadeAlterada();
             }
         }
