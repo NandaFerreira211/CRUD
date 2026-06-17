@@ -45,7 +45,7 @@ public partial class Feed : Window
                     Id = leitor.GetInt32("id"),
                     Conteudo = leitor.GetString("conteudo"),
                     Curtidas = leitor.GetInt32("curtidas"),
-                    Postado_em = leitor.GetDateTime("postado_em"),
+                    PostadoEm = leitor.GetDateTime("postado_em"),
                     FoiCurtido = leitor.GetBoolean("curtido"),
                     Usuario = new Usuario
                     {

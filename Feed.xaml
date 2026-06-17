@@ -52,7 +52,7 @@
                                                                Margin="5,0,0,0"
                                                                Opacity="0.7" />
                                                 </StackPanel>
-                                                <TextBlock Text="{Binding Postado_em, StringFormat='dd MMM - HH:mm'}"
+                                                <TextBlock Text="{Binding PostadoEm, StringFormat='dd MMM - HH:mm'}"
                                                            Foreground="#374151"
                                                            FontSize="12"
                                                            Opacity="0.5"
