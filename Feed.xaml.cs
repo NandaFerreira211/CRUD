@@ -1,6 +1,5 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using CRUD.Modelos;
 using MySql.Data.MySqlClient;
 
@@ -8,8 +7,8 @@ namespace CRUD;
 
 public partial class Feed : Window
 {
-    private Usuario _usuario;
-    
+    private readonly Usuario _usuario;
+
     public Feed(Usuario usuario)
     {
         _usuario = usuario;
@@ -20,8 +19,9 @@ public partial class Feed : Window
     private void CarregarPosts_QuandoIniciar()
     {
         List<Postagem> listaPostagens = [];
-        
-        const string query = "SELECT p.id, p.conteudo, p.curtidas, p.postado_em, u.nome, u.username, IF(cp.usuario_id IS NOT NULL, TRUE, FALSE) AS curtido FROM postagens p INNER JOIN usuarios u ON p.usuario_id = u.id LEFT JOIN curtidas_postagens cp ON cp.postagem_id = p.id AND cp.usuario_id = @usuario_id ORDER BY p.postado_em DESC";
+
+        const string query =
+            "SELECT p.id, p.conteudo, p.curtidas, p.postado_em, u.nome, u.username, IF(cp.usuario_id IS NOT NULL, TRUE, FALSE) AS curtido FROM postagens p INNER JOIN usuarios u ON p.usuario_id = u.id LEFT JOIN curtidas_postagens cp ON cp.postagem_id = p.id AND cp.usuario_id = @usuario_id ORDER BY p.postado_em DESC";
 
         using var conexao = new MySqlConnection(App.StringConexao);
 
@@ -42,7 +42,7 @@ public partial class Feed : Window
                 MessageBox.Show("Nenhum postagem foi encontrada");
                 return;
             }
-            
+
             // Caso tenha, ler linha por linha em uma repetição
             while (leitor.Read())
             {
@@ -51,7 +51,7 @@ public partial class Feed : Window
                     Id = leitor.GetInt32("id"),
                     Conteudo = leitor.GetString("conteudo"),
                     Curtidas = leitor.GetInt32("curtidas"),
-                    Postado_em = leitor.GetDateTime("postado_em"),
+                    PostadoEm = leitor.GetDateTime("postado_em"),
                     FoiCurtido = leitor.GetBoolean("curtido"),
                     Usuario = new Usuario
                     {
@@ -81,7 +81,7 @@ public partial class Feed : Window
 
         comando.Parameters.AddWithValue("@usuario", _usuario.Id);
         comando.Parameters.AddWithValue("@postagem", postagem.Id);
-        
+
         try
         {
             conexao.Open();
@@ -101,6 +101,7 @@ public partial class Feed : Window
                 postagem.FoiCurtido = true;
                 postagem.Curtidas++;
             }
+
             conexao.Close();
             comando.CommandText = query;
             conexao.Open();
