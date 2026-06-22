@@ -7,7 +7,7 @@ namespace CRUD;
 
 public partial class Feed : Window
 {
-    private Usuario _usuario;
+    private readonly Usuario _usuario;
 
     public Feed(Usuario usuario)
     {
@@ -21,23 +21,29 @@ public partial class Feed : Window
         List<Postagem> listaPostagens = [];
 
         const string query =
-            "SELECT p.id,\n       p.conteudo,\n       p.curtidas,\n       p.postado_em,\n       u.nome,\n       u.username,\n       IF(cp.usuario_id IS NOT NULL,TRUE,FALSE) AS curtido\nFROM postagens p\n         INNER JOIN usuarios u ON p.usuario_id = u.id\n      LEFT JOIN  curtidas_postagens cp ON cp.postagem_id = p.id AND CP.usuario_id = @usuario_id\nORDER BY p.postado_em DESC";
+            "SELECT p.id, p.conteudo, p.curtidas, p.postado_em, u.nome, u.username, IF(cp.usuario_id IS NOT NULL, TRUE, FALSE) AS curtido FROM postagens p INNER JOIN usuarios u ON p.usuario_id = u.id LEFT JOIN curtidas_postagens cp ON cp.postagem_id = p.id AND cp.usuario_id = @usuario_id ORDER BY p.postado_em DESC";
 
         using var conexao = new MySqlConnection(App.StringConexao);
 
         using var comando = new MySqlCommand(query, conexao);
         comando.Parameters.AddWithValue("@usuario_id", _usuario.Id);
+
+        // Criar um bloco try-catch
         try
         {
+            // Dentro do try, abra a conexao
             conexao.Open();
-
+            // Executar o comando como leitor e guarde em uma variavel
             var leitor = comando.ExecuteReader();
+            // Verificar se o leitor não tem linhas
             if (!leitor.HasRows)
             {
-                MessageBox.Show("Nenhuma postagem encontrada!");
+                // Se não tiver, avisar o usuário que nenhuma postagem foi encontrada
+                MessageBox.Show("Nenhum postagem foi encontrada");
                 return;
             }
 
+            // Caso tenha, ler linha por linha em uma repetição
             while (leitor.Read())
             {
                 var post = new Postagem
@@ -68,7 +74,7 @@ public partial class Feed : Window
     {
         var botao = (Button)sender;
         var postagem = (Postagem)botao.Tag;
-        var query = "SELECT 1 FROM curtidas_postagens WHERE usuario_id =@usuario AND postagem_id =@postagem";
+        var query = "SELECT 1 FROM curtidas_postagens WHERE usuario_id = @usuario AND postagem_id = @postagem";
 
         using var conexao = new MySqlConnection(App.StringConexao);
         using var comando = new MySqlCommand(query, conexao);
@@ -83,14 +89,14 @@ public partial class Feed : Window
             string acao;
             if (leitor.HasRows)
             {
-                query = "DELETE FROM curtidas_postagens WHERE usuario_id =@usuario AND postagem_id =@postagem";
-                acao = "descutir";
+                query = "DELETE FROM curtidas_postagens WHERE usuario_id = @usuario AND postagem_id = @postagem";
+                acao = "descurtir";
                 postagem.FoiCurtido = false;
                 postagem.Curtidas--;
             }
             else
             {
-                query = "INSERT INTO curtidas_postagens(usuario_id,postagem_id) VALUES(@usuario,@postagem)";
+                query = "INSERT INTO curtidas_postagens(usuario_id, postagem_id) VALUES (@usuario, @postagem)";
                 acao = "curtir";
                 postagem.FoiCurtido = true;
                 postagem.Curtidas++;
@@ -100,11 +106,16 @@ public partial class Feed : Window
             comando.CommandText = query;
             conexao.Open();
             var linhasAfetadas = comando.ExecuteNonQuery();
-            if (linhasAfetadas == 0) throw new Exception($"Erro ao {acao} postagem");
+            if (linhasAfetadas == 0) throw new Exception($"Erro ao {acao} postagem!");
         }
-        catch (Exception exception)
+        catch (Exception excecao)
         {
-            MessageBox.Show(exception.Message);
+            MessageBox.Show(excecao.Message);
         }
+    }
+
+    private void BtnNovoPost_OnClick(object sender, RoutedEventArgs e)
+    {
+        new NovaPostagem(_usuario).ShowDialog();
     }
 }
