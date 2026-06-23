@@ -26,7 +26,7 @@ public partial class Cadastro : Window
         {
             if (string.IsNullOrWhiteSpace(caixinha.Key.Text))
             {
-                MessageBox.Show($"O campo senha não pode estar vazio.");
+                MessageBox.Show("O campo senha não pode estar vazio.");
                 caixinha.Key.Focus();
                 return;
             }
