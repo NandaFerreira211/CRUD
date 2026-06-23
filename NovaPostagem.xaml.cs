@@ -7,7 +7,7 @@ namespace CRUD;
 
 public partial class NovaPostagem : Window
 {
-    private Usuario _usuario;
+    private readonly Usuario _usuario;
 
     public NovaPostagem(Usuario usuario)
     {
@@ -48,7 +48,8 @@ public partial class NovaPostagem : Window
         {
             MessageBox.Show(exception.Message);
         }
-        finally{
+        finally
+        {
             conexao.Close();
             Close();
         }

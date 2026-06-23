@@ -29,8 +29,8 @@
                      MaxLines="6"
                      MinHeight="180"
                      TextWrapping="Wrap"
-                        x:Name="tbConteudo"
-                      TextChanged="TbConteudo_OnTextChanged">
+                     x:Name="tbConteudo"
+                     TextChanged="TbConteudo_OnTextChanged">
                 <TextBox.Resources>
                     <Style TargetType="Border">
                         <Setter Property="CornerRadius" Value="5" />
@@ -42,7 +42,7 @@
                    HorizontalAlignment="Right"
                    FontSize="12"
                    FontWeight="Light"
-                   x:Name="lblCaracteresMax"/>
+                   x:Name="lblCaracteresMax" />
         </Grid>
 
 
