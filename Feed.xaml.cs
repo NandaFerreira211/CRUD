@@ -68,6 +68,10 @@ public partial class Feed : Window
         {
             Console.WriteLine(e);
         }
+        finally
+        {
+            conexao.Close();
+        }
     }
 
     private void BtnCurtir_OnClick(object sender, RoutedEventArgs e)
@@ -112,7 +116,10 @@ public partial class Feed : Window
         {
             MessageBox.Show(excecao.Message);
         }
-        
+        finally
+        {
+            conexao.Close();
+        }
     }
 
     private void BtnNovoPost_OnClick(object sender, RoutedEventArgs e)
