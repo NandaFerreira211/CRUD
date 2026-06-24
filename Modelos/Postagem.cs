@@ -24,7 +24,7 @@ public class Postagem : INotifyPropertyChanged
     public DateTime PostadoEm { get; set; }
     public Usuario Usuario { get; set; } = null!;
 
-    public bool FoiCurtido
+   public bool FoiCurtido
     {
         get => _foiCurtido;
         set
@@ -35,6 +35,7 @@ public class Postagem : INotifyPropertyChanged
         }
     }
 
+   public bool SuaPostagem { get; set; }
     public event PropertyChangedEventHandler? PropertyChanged;
 
     private void NotificarPropriedadeAlterada([CallerMemberName] string nomePropriedade = "")
