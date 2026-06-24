@@ -46,7 +46,7 @@
         </Grid>
 
 
-        <Button Grid.Row="2"
+        <Button Grid.Row="1"
                 Background="#2563EB"
                 Foreground="White"
                 Content="Postar"
@@ -54,7 +54,9 @@
                 FontWeight="Bold"
                 Margin="8"
                 Padding="8"
-                Click="BtnPostar_OnClick">
+                Click="BtnPostar_OnClick"
+                IsDefault="True"
+                ToolTip="A postagem só pode ser feita se o campo for preenchido">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="5" />
