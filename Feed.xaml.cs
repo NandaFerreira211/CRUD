@@ -125,8 +125,9 @@ public partial class Feed : Window
 
     private void BtnNovoPost_OnClick(object sender, RoutedEventArgs e)
     {
-        new NovaPostagem(_usuario).ShowDialog();
+        new JanelaPostagem(_usuario).ShowDialog();
         CarregarPosts_QuandoIniciar();
+        
     }
 
     private void BtnPerfil_OnClick(object sender, RoutedEventArgs e)
@@ -170,6 +171,10 @@ public partial class Feed : Window
 
     private void BtnEditarPostagem_OnClick(object sender, RoutedEventArgs e)
     {
-       
+        var botao = (Button)sender;
+        var postagem = (Postagem)botao.Tag;
+        
+        new JanelaPostagem(_usuario, postagem).ShowDialog();
+        CarregarPosts_QuandoIniciar();
     }
 }
